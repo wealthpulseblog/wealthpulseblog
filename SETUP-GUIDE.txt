@@ -1,0 +1,62 @@
+# WealthPulse — Deploy Guide
+# ================================
+# Complete this in under 20 minutes.
+
+## STEP 1: Get a free Netlify account
+1. Go to https://netlify.com
+2. Click "Sign up" — use your email or GitHub
+3. It's completely free
+
+## STEP 2: Deploy your site (drag and drop)
+1. In Netlify dashboard, find the box that says "Drag and drop your site folder here"
+2. Drag the entire "wealthpulse-blog" folder onto it
+3. Netlify gives you a live URL instantly (e.g. random-name.netlify.app)
+4. Your site is LIVE
+
+## STEP 3: Get a custom domain (optional, ~£10/year)
+1. Go to https://porkbun.com or https://namecheap.com
+2. Search for your domain (e.g. wealthpulse.co.uk)
+3. Buy it (~£8–12/year)
+4. In Netlify: Site Settings → Domain Management → Add Custom Domain
+5. Follow the DNS instructions (takes ~10 minutes to propagate)
+
+## STEP 4: Google AdSense (the money part)
+1. Go to https://adsense.google.com
+2. Sign up with your Google account
+3. Enter your site URL
+4. Add the verification code to your pages (instructions provided by Google)
+5. Wait for approval (2–4 weeks typically)
+6. Once approved, replace every "Ad Placeholder" comment in the HTML files
+   with your actual AdSense <ins> code blocks
+
+## STEP 5: Affiliate Links (more money)
+Sign up FREE at:
+- Amazon Associates: https://affiliate-program.amazon.co.uk
+- ClickBank: https://clickbank.com (approved same day)
+- ShareASale: https://shareasale.com
+- Impact: https://impact.com
+
+Once you have your links, paste them into the SleepStack engine
+and it will inject them automatically into every new article.
+
+## STEP 6: Keep growing with SleepStack
+1. Run SleepStack to generate new articles
+2. Click "Copy HTML" on each article
+3. Create a new .html file in the articles/ folder
+4. Paste the HTML
+5. Add the page to sitemap.xml
+6. Re-upload the folder to Netlify (drag and drop again)
+
+## REVENUE EXPECTATIONS (realistic)
+- Month 1-3:  Traffic building. £0–£5/month from ads.
+- Month 4-6:  Google starts ranking content. £10–£50/month.
+- Month 6-12: Compounding. £50–£300/month.
+- Year 2+:    £300–£1,500+/month with consistent publishing.
+
+The key: keep adding articles. Every article is a permanent asset.
+The more content, the more traffic, the more passive income.
+
+## QUESTIONS
+If anything isn't working, the two most useful resources are:
+- https://docs.netlify.com
+- https://support.google.com/adsense
