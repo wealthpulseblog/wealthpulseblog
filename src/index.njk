@@ -1,0 +1,144 @@
+---
+layout: base.njk
+title: false
+description: "WealthPulse — practical, no-fluff advice on personal finance, health, productivity, and career growth."
+pagination:
+  data: collections.articles
+  size: 100
+  alias: allArticles
+---
+
+{# ── HERO: featured article or most recent ── #}
+{% set heroArticle = collections.featured[0] or collections.articles[0] %}
+
+{% if heroArticle %}
+<section class="hero-section">
+  <span class="section-label">Editor's Pick</span>
+  <div class="hero-article">
+    <div class="hero-img">
+      <div class="hero-img-inner">
+        {% if heroArticle.data.niche == "personal-finance" %}💰
+        {% elif heroArticle.data.niche == "health-fitness" %}💪
+        {% elif heroArticle.data.niche == "productivity" %}⚡
+        {% elif heroArticle.data.niche == "career-growth" %}📈
+        {% else %}🏡{% endif %}
+      </div>
+    </div>
+    <div>
+      <div class="hero-niche">
+        {{ heroArticle.data.niche | replace("-", " ") | title }}
+      </div>
+      <h1 class="hero-title">
+        <a href="{{ heroArticle.url }}">{{ heroArticle.data.title }}</a>
+      </h1>
+      <p class="hero-excerpt">{{ heroArticle.data.description }}</p>
+      <a href="{{ heroArticle.url }}" class="read-more">Read Article</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── LATEST ARTICLES GRID (2 columns, skipping hero) ── #}
+{% set gridArticles = collections.articles | selectattr("url", "!=", heroArticle.url) | list %}
+{% if gridArticles.length %}
+<section class="articles-section">
+  <span class="section-label">Latest</span>
+  <div class="articles-grid">
+    {% for article in gridArticles | slice(0, 4) %}
+    <div class="article-card">
+      <div class="card-niche">
+        {{ article.data.niche | replace("-", " ") | title }}
+      </div>
+      <h2 class="card-title">
+        <a href="{{ article.url }}">{{ article.data.title }}</a>
+      </h2>
+      <p class="card-excerpt">{{ article.data.description }}</p>
+      <div class="card-meta">
+        <time datetime="{{ article.date | isoDate }}">{{ article.date | readableDate }}</time>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{# ── MID-PAGE AD ── #}
+<div class="mid-ad">
+  {% adSlot "rectangle" %}
+</div>
+
+{# ── MORE ARTICLES LIST ── #}
+{% set moreArticles = gridArticles | slice(4) %}
+{% if moreArticles.length %}
+<section class="more-section">
+  <span class="section-label">More to Read</span>
+  <div class="list-articles">
+    {% for article in moreArticles | slice(0, 8) %}
+    <div class="list-item">
+      <div class="list-num">{% if loop.index < 10 %}0{{ loop.index }}{% else %}{{ loop.index }}{% endif %}</div>
+      <div>
+        <div class="list-title">
+          <a href="{{ article.url }}">{{ article.data.title }}</a>
+        </div>
+        <div class="list-excerpt">{{ article.data.description | truncate(120) }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{# ── SIDEBAR (homepage version, rendered via CSS grid on desktop) ── #}
+<aside class="sidebar" id="homepage-sidebar">
+  <div class="sidebar-section">
+    {% adSlot "rectangle" %}
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">Most Popular</div>
+    <div class="popular-list">
+      {% for article in collections.articles | slice(0, 4) %}
+      <div class="popular-item">
+        <div class="popular-num">{{ loop.index }}</div>
+        <div class="popular-title">
+          <a href="{{ article.url }}">{{ article.data.title }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">Categories</div>
+    <div class="categories">
+      {% set niches = [
+        ["personal-finance", "Personal Finance"],
+        ["health-fitness",   "Health & Fitness"],
+        ["productivity",     "Productivity"],
+        ["career-growth",    "Career Growth"],
+        ["home-living",      "Home & Living"]
+      ] %}
+      {% for slug, label in niches %}
+      <a href="/articles/category/{{ slug }}/" class="cat-item">
+        {{ label }}
+        <span class="cat-count">
+          {{ collections.articles | selectattr("data.niche", "==", slug) | list | length }}
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="newsletter-box">
+      <h3>Weekly Insights</h3>
+      <p>One practical idea each week. No fluff, no spam.</p>
+      <input class="nl-input" type="email" placeholder="your@email.com" aria-label="Email address">
+      <button class="nl-btn">Subscribe Free</button>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    {% adSlot "halfpage" %}
+  </div>
+</aside>

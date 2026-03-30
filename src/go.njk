@@ -1,0 +1,24 @@
+---
+pagination:
+  data: goLinks
+  size: 1
+  alias: product
+permalink: "/go/{{ product.go_slug }}/index.html"
+eleventyExcludeFromCollections: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="refresh" content="0; url={{ product.url }}">
+  <title>Redirecting…</title>
+  <script>
+    window.location.replace({{ product.url | dump | safe }});
+  </script>
+</head>
+<body>
+  <p>Redirecting to {{ product.name }}…</p>
+  <p><a href="{{ product.url }}">Continue</a></p>
+</body>
+</html>

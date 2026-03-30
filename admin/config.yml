@@ -1,0 +1,185 @@
+# ══════════════════════════════════════════════════════════════════
+# Decap CMS Configuration — WealthPulse
+# ══════════════════════════════════════════════════════════════════
+#
+# This file defines:
+#   - Where content is stored (GitHub repo + folder)
+#   - What fields appear in the CMS editor for each content type
+#   - How articles are saved (Markdown with YAML front matter)
+#
+# Authentication is handled by Netlify Identity — no separate
+# auth service needed.
+# ══════════════════════════════════════════════════════════════════
+
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create:  "cms: publish '{{fields.title}}'"
+    update:  "cms: update '{{fields.title}}'"
+    delete:  "cms: delete '{{fields.title}}'"
+    uploadMedia: "cms: upload media {{path}}"
+    deleteMedia: "cms: delete media {{path}}"
+
+# Media storage — images uploaded via CMS go here
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+# Show editorial workflow (Draft → In Review → Ready → Published)
+# Remove this line if you want to publish immediately without staging
+publish_mode: editorial_workflow
+
+# ── COLLECTIONS ──────────────────────────────────────────────────
+
+collections:
+
+  # ── ARTICLES ───────────────────────────────────────────────────
+  # All blog posts live here regardless of intent type.
+  # The "intent" field controls how Eleventy renders them.
+  - name: "articles"
+    label: "Articles"
+    label_singular: "Article"
+    folder: "src/articles"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "articles/{{slug}}/"
+    summary: "{{title}} — {{niche}} — {{intent}}"
+    sortable_fields: ["date", "title", "niche", "intent"]
+    view_filters:
+      - label: "Ads articles"
+        field: intent
+        pattern: "ads"
+      - label: "Affiliate articles"
+        field: intent
+        pattern: "affiliate"
+
+    fields:
+      # ── Core metadata ──────────────────────────────────────────
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The H1 heading. Be specific. E.g. 'Best Budgeting Apps for Beginners UK 2026'"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        default: ""
+
+      - label: "SEO Meta Description"
+        name: "description"
+        widget: "text"
+        hint: "150–160 characters. Include your main keyword naturally. Shown in Google results."
+        pattern:
+          - '.{50,165}'
+          - "Aim for 50–165 characters"
+
+      - label: "Niche / Category"
+        name: "niche"
+        widget: "select"
+        options:
+          - { label: "Personal Finance", value: "personal-finance" }
+          - { label: "Health & Fitness", value: "health-fitness" }
+          - { label: "Productivity",     value: "productivity"     }
+          - { label: "Career Growth",    value: "career-growth"    }
+          - { label: "Home & Living",    value: "home-living"      }
+
+      - label: "Article Intent"
+        name: "intent"
+        widget: "select"
+        hint: "Ads = informational, traffic-focused. Affiliate = buyer-intent, product-focused."
+        options:
+          - { label: "Ads (informational / traffic)", value: "ads"       }
+          - { label: "Affiliate (buyer intent)",      value: "affiliate" }
+
+      - label: "Article Format"
+        name: "format"
+        widget: "select"
+        default: "guide"
+        options:
+          - { label: "Guide / How-to",      value: "guide"      }
+          - { label: "Best-of list",        value: "best-of"    }
+          - { label: "Comparison",          value: "comparison" }
+          - { label: "Review",              value: "review"     }
+
+      - label: "SEO Keywords"
+        name: "keywords"
+        widget: "list"
+        hint: "3–6 keywords, comma-separated. Used in the meta keywords tag."
+        field:
+          label: "Keyword"
+          name: "keyword"
+          widget: "string"
+
+      - label: "Featured / Show on Homepage"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Toggle on to feature this article in the homepage hero slot."
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+        hint: "Toggle on to hide this article from the live site."
+
+      # ── Affiliate settings (only relevant when intent = affiliate) ──
+      - label: "Affiliate Product Category"
+        name: "product_category"
+        widget: "select"
+        required: false
+        hint: "Only needed for affiliate articles. Must match a key in src/_data/affiliate.json."
+        options:
+          - { label: "Finance Apps",          value: "finance-apps"          }
+          - { label: "Investment Platforms",  value: "investment-platforms"  }
+          - { label: "Fitness Trackers",      value: "fitness-trackers"      }
+          - { label: "Supplements",           value: "supplements"           }
+          - { label: "Productivity Software", value: "productivity-software" }
+          - { label: "Online Courses",        value: "online-courses"        }
+          - { label: "Home Appliances",       value: "home-appliances"       }
+
+      # ── Article body ────────────────────────────────────────────
+      - label: "Article Body"
+        name: "body"
+        widget: "markdown"
+        hint: >
+          Write your article here.
+          For affiliate articles: type [product:go-slug] on its own line
+          where you want a product card to appear. E.g. [product:emma-budget-app]
+          Available go-slugs are listed in src/_data/affiliate.json.
+
+  # ── PAGES (About, Privacy etc) ─────────────────────────────────
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "About"
+        name: "about"
+        file: "src/about.md"
+        fields:
+          - { label: "Title",       name: "title",       widget: "string" }
+          - { label: "Description", name: "description", widget: "text"   }
+          - { label: "Body",        name: "body",        widget: "markdown" }
+
+      - label: "Privacy Policy"
+        name: "privacy"
+        file: "src/privacy.md"
+        fields:
+          - { label: "Title",       name: "title",       widget: "string"   }
+          - { label: "Description", name: "description", widget: "text"     }
+          - { label: "Body",        name: "body",        widget: "markdown" }
+
+  # ── SITE SETTINGS ───────────────────────────────────────────────
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "src/_data/settings.json"
+        fields:
+          - { label: "Site Name",        name: "site_name",    widget: "string" }
+          - { label: "Site URL",         name: "site_url",     widget: "string" }
+          - { label: "Tagline",          name: "tagline",      widget: "string" }
+          - { label: "AdSense Client ID",name: "adsense_id",   widget: "string", required: false,
+              hint: "e.g. ca-pub-XXXXXXXXXXXXXXXX — leave blank until approved" }
+          - { label: "AdSense Auto Ads", name: "adsense_auto", widget: "boolean", default: false }

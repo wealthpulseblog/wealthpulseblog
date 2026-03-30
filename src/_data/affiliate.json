@@ -1,0 +1,77 @@
+{
+  "finance-apps": [
+    {
+      "name": "YNAB",
+      "go_slug": "ynab",
+      "url": "REPLACE_WITH_YOUR_AFFILIATE_LINK",
+      "description": "Zero-based budgeting app with strong educational resources and bank sync.",
+      "rating": 4.7,
+      "price_note": "Paid after free trial",
+      "best_for": "Structured budgeting",
+      "pros": [
+        "Strong budgeting method",
+        "Excellent learning resources",
+        "Works in UK and US"
+      ],
+      "cons": [
+        "Learning curve",
+        "Subscription cost"
+      ]
+    },
+    {
+      "name": "Emma",
+      "go_slug": "emma-app",
+      "url": "REPLACE_WITH_YOUR_AFFILIATE_LINK",
+      "description": "UK-friendly app for tracking spending, subscriptions, and account balances.",
+      "rating": 4.4,
+      "price_note": "Free tier available",
+      "best_for": "UK users",
+      "pros": [
+        "Easy account overview",
+        "Subscription tracking",
+        "Beginner-friendly"
+      ],
+      "cons": [
+        "Best features on paid plans",
+        "Less structured budgeting than YNAB"
+      ]
+    },
+    {
+      "name": "Monarch Money",
+      "go_slug": "monarch-money",
+      "url": "REPLACE_WITH_YOUR_AFFILIATE_LINK",
+      "description": "Clean US-focused budgeting and financial planning app with goal tracking.",
+      "rating": 4.5,
+      "price_note": "Paid after free trial",
+      "best_for": "US users",
+      "pros": [
+        "Modern interface",
+        "Goal tracking",
+        "Useful account overview"
+      ],
+      "cons": [
+        "US-focused",
+        "Subscription required"
+      ]
+    }
+  ],
+  "productivity-software": [
+    {
+      "name": "Todoist",
+      "go_slug": "todoist",
+      "url": "REPLACE_WITH_YOUR_AFFILIATE_LINK",
+      "description": "Task manager for capturing, organising, and reviewing work across devices.",
+      "rating": 4.6,
+      "price_note": "Free plan available",
+      "best_for": "Task management",
+      "pros": [
+        "Easy to start",
+        "Cross-platform",
+        "Good recurring task support"
+      ],
+      "cons": [
+        "Advanced features need paid plan"
+      ]
+    }
+  ]
+}

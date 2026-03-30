@@ -1,0 +1,125 @@
+---
+layout: base.njk
+og_type: article
+schemaType: Article
+---
+
+{# ── Resolve affiliate products if this is an affiliate article ── #}
+{% set affiliateDb = affiliate %}
+
+{# ── Process [product:go-slug] shortcodes in body content ── #}
+{# We do this by rendering body as a string and replacing placeholders ── #}
+{% set bodyContent = content %}
+
+{# ── BREADCRUMB ── #}
+<div class="breadcrumb">
+  <a href="/">Home</a>
+  <span>›</span>
+  <a href="/articles/category/{{ niche }}/">
+    {{ niche | replace("-", " ") | title }}
+  </a>
+  <span>›</span>
+  <span>{{ title }}</span>
+</div>
+
+{# ── ARTICLE LAYOUT ── #}
+<div class="article-page">
+  <main class="article-main">
+
+    {# ── Intent badge (affiliate articles get a disclosure) ── #}
+    {% if intent == "affiliate" %}
+    <div class="affiliate-disclosure">
+      <strong>Disclosure:</strong> This article contains affiliate links.
+      If you purchase through our links we may earn a small commission,
+      at no extra cost to you. Our recommendations are based on genuine research.
+    </div>
+    {% endif %}
+
+    <div class="article-niche">
+      {{ niche | replace("-", " ") | title }}
+    </div>
+
+    <h1 class="article-title">{{ title }}</h1>
+
+    <div class="article-meta">
+      <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
+      &nbsp;·&nbsp; {{ content | stripHtml | truncate(1) | wordcount }} words
+      &nbsp;·&nbsp;
+      <span class="article-format article-format--{{ format or 'guide' }}">
+        {{ format or "guide" | title }}
+      </span>
+    </div>
+
+    {# ── ARTICLE BODY ── #}
+    {# For affiliate articles, [product:go-slug] in the Markdown body  #}
+    {# gets replaced by Eleventy's markdown-it rendering +              #}
+    {# the productCard shortcode above.                                 #}
+    {# The CMS rich text editor outputs standard Markdown;              #}
+    {# [product:slug] is a custom shorthand the author types.           #}
+    <div class="article-body">
+      {{ content | renderProductShortcodes(affiliateDb) | safe }}
+    </div>
+
+    {# ── TAGS ── #}
+    {% if keywords and keywords.length %}
+    <div class="article-tags">
+      {% for kw in keywords %}
+        <span class="tag">{{ kw }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# ── RELATED ARTICLES ── #}
+    <div class="related-section">
+      <div class="related-title">Continue Reading</div>
+      <div class="related-grid">
+        {% set ns = namespace(count=0) %}
+        {% for post in collections.articles %}
+          {% if ns.count < 3 and post.url != page.url %}
+            <div class="related-item">
+              <div class="related-niche">
+                {{ post.data.niche | replace("-", " ") | title }}
+              </div>
+              <div class="related-item-title">
+                <a href="{{ post.url }}">{{ post.data.title }}</a>
+              </div>
+            </div>
+            {% set ns.count = ns.count + 1 %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+  </main>
+
+  {# ── SIDEBAR ── #}
+  <aside class="article-sidebar">
+    <div class="sidebar-section">
+      {% adSlot "rectangle" %}
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Categories</div>
+      <div class="categories">
+        <a href="/articles/category/personal-finance/" class="cat-item">Personal Finance</a>
+        <a href="/articles/category/health-fitness/"   class="cat-item">Health &amp; Fitness</a>
+        <a href="/articles/category/productivity/"     class="cat-item">Productivity</a>
+        <a href="/articles/category/career-growth/"    class="cat-item">Career Growth</a>
+        <a href="/articles/category/home-living/"      class="cat-item">Home &amp; Living</a>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="newsletter-box">
+        <h3>Weekly Insights</h3>
+        <p>One practical idea each week. No fluff.</p>
+        <input class="nl-input" type="email" placeholder="your@email.com" aria-label="Email address">
+        <button class="nl-btn">Subscribe Free</button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      {% adSlot "halfpage" %}
+    </div>
+  </aside>
+</div>

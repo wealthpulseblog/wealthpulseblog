@@ -1,0 +1,32 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  {# ── Homepage ── #}
+  <url>
+    <loc>{{ settings.site_url }}/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  {# ── Static pages ── #}
+  <url>
+    <loc>{{ settings.site_url }}/about/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  {# ── All published articles ── #}
+  {% for article in collections.articles %}
+  <url>
+    <loc>{{ settings.site_url }}{{ article.url }}</loc>
+    <lastmod>{{ article.date | isoDate | truncate(10, false, "") }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>{% if article.data.featured %}0.9{% else %}0.8{% endif %}</priority>
+  </url>
+  {% endfor %}
+
+</urlset>
