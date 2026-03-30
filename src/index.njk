@@ -2,13 +2,10 @@
 layout: base.njk
 title: false
 description: "WealthPulse — practical, no-fluff advice on personal finance, health, productivity, and career growth."
-pagination:
-  data: collections.articles
-  size: 100
-  alias: allArticles
+permalink: /
 ---
 
-{# ── HERO: featured article or most recent ── #}
+{# Hero article #}
 {% set heroArticle = collections.featured[0] or collections.articles[0] %}
 
 {% if heroArticle %}
@@ -38,72 +35,74 @@ pagination:
 </section>
 {% endif %}
 
-{# ── LATEST ARTICLES GRID (2 columns, skipping hero) ── #}
-{% set gridArticles = collections.articles | selectattr("url", "!=", heroArticle.url) | list %}
+{# Latest articles excluding hero #}
+{% set gridArticles = [] %}
+{% for article in collections.articles %}
+  {% if not heroArticle or article.url != heroArticle.url %}
+    {% set gridArticles = (gridArticles or []).concat([article]) %}
+  {% endif %}
+{% endfor %}
+
 {% if gridArticles.length %}
 <section class="articles-section">
   <span class="section-label">Latest</span>
   <div class="articles-grid">
-    {% for article in gridArticles | slice(0, 4) %}
-    <div class="article-card">
-      <div class="card-niche">
-        {{ article.data.niche | replace("-", " ") | title }}
+    {% for article in gridArticles %}
+      {% if loop.index0 < 4 %}
+      <div class="article-card">
+        <div class="card-niche">
+          {{ article.data.niche | replace("-", " ") | title }}
+        </div>
+        <h2 class="card-title">
+          <a href="{{ article.url }}">{{ article.data.title }}</a>
+        </h2>
+        <p class="card-excerpt">{{ article.data.description }}</p>
+        <div class="card-meta">
+          <time datetime="{{ article.date | isoDate }}">{{ article.date | readableDate }}</time>
+        </div>
       </div>
-      <h2 class="card-title">
-        <a href="{{ article.url }}">{{ article.data.title }}</a>
-      </h2>
-      <p class="card-excerpt">{{ article.data.description }}</p>
-      <div class="card-meta">
-        <time datetime="{{ article.date | isoDate }}">{{ article.date | readableDate }}</time>
-      </div>
-    </div>
+      {% endif %}
     {% endfor %}
   </div>
 </section>
 {% endif %}
 
-{# ── MID-PAGE AD ── #}
-<div class="mid-ad">
-  {% adSlot "rectangle" %}
-</div>
-
-{# ── MORE ARTICLES LIST ── #}
-{% set moreArticles = gridArticles | slice(4) %}
-{% if moreArticles.length %}
+{% if gridArticles.length > 4 %}
 <section class="more-section">
   <span class="section-label">More to Read</span>
   <div class="list-articles">
-    {% for article in moreArticles | slice(0, 8) %}
-    <div class="list-item">
-      <div class="list-num">{% if loop.index < 10 %}0{{ loop.index }}{% else %}{{ loop.index }}{% endif %}</div>
-      <div>
-        <div class="list-title">
-          <a href="{{ article.url }}">{{ article.data.title }}</a>
+    {% for article in gridArticles %}
+      {% if loop.index0 >= 4 and loop.index0 < 12 %}
+      <div class="list-item">
+        <div class="list-num">
+          {% if loop.index0 - 3 < 10 %}0{{ loop.index0 - 3 }}{% else %}{{ loop.index0 - 3 }}{% endif %}
         </div>
-        <div class="list-excerpt">{{ article.data.description | truncate(120) }}</div>
+        <div>
+          <div class="list-title">
+            <a href="{{ article.url }}">{{ article.data.title }}</a>
+          </div>
+          <div class="list-excerpt">{{ article.data.description | truncate(120) }}</div>
+        </div>
       </div>
-    </div>
+      {% endif %}
     {% endfor %}
   </div>
 </section>
 {% endif %}
 
-{# ── SIDEBAR (homepage version, rendered via CSS grid on desktop) ── #}
 <aside class="sidebar" id="homepage-sidebar">
-  <div class="sidebar-section">
-    {% adSlot "rectangle" %}
-  </div>
-
   <div class="sidebar-section">
     <div class="sidebar-title">Most Popular</div>
     <div class="popular-list">
-      {% for article in collections.articles | slice(0, 4) %}
-      <div class="popular-item">
-        <div class="popular-num">{{ loop.index }}</div>
-        <div class="popular-title">
-          <a href="{{ article.url }}">{{ article.data.title }}</a>
+      {% for article in collections.articles %}
+        {% if loop.index0 < 4 %}
+        <div class="popular-item">
+          <div class="popular-num">{{ loop.index }}</div>
+          <div class="popular-title">
+            <a href="{{ article.url }}">{{ article.data.title }}</a>
+          </div>
         </div>
-      </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
@@ -113,16 +112,16 @@ pagination:
     <div class="categories">
       {% set niches = [
         ["personal-finance", "Personal Finance"],
-        ["health-fitness",   "Health & Fitness"],
-        ["productivity",     "Productivity"],
-        ["career-growth",    "Career Growth"],
-        ["home-living",      "Home & Living"]
+        ["health-fitness", "Health & Fitness"],
+        ["productivity", "Productivity"],
+        ["career-growth", "Career Growth"],
+        ["home-living", "Home & Living"]
       ] %}
-      {% for slug, label in niches %}
-      <a href="/articles/category/{{ slug }}/" class="cat-item">
-        {{ label }}
+      {% for niche in niches %}
+      <a href="/articles/category/{{ niche[0] }}/" class="cat-item">
+        {{ niche[1] }}
         <span class="cat-count">
-          {{ collections.articles | selectattr("data.niche", "==", slug) | list | length }}
+          {{ collections.articles | selectattr("data.niche", "==", niche[0]) | list | length }}
         </span>
       </a>
       {% endfor %}
@@ -136,9 +135,5 @@ pagination:
       <input class="nl-input" type="email" placeholder="your@email.com" aria-label="Email address">
       <button class="nl-btn">Subscribe Free</button>
     </div>
-  </div>
-
-  <div class="sidebar-section">
-    {% adSlot "halfpage" %}
   </div>
 </aside>
