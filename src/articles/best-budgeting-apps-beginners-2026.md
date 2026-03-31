@@ -14,6 +14,11 @@ keywords:
   - Emma app review
 featured: true
 draft: false
+tags:
+  - articles
+  - featured
+layout: base.njk
+schemaType: Article
 ---
 
 Most people don't fail at budgeting because they lack willpower. They fail because they're using the wrong system — or no system at all. A good budgeting app removes the friction, does the maths for you, and makes it genuinely harder to overspend without realising it.
