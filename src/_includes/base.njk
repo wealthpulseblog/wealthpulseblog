@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>{% if title %}{{ title }} — {{ settings.site_name }}{% else %}{{ settings.site_name }}{% endif %}</title>
+  <title>{% if title and title != false %}{{ title }} — {{ settings.site_name }}{% else %}{{ settings.site_name }}{% endif %}</title>
   <meta name="description" content="{{ description or settings.tagline }}">
   {% if keywords %}<meta name="keywords" content="{{ keywords | join(', ') }}">{% endif %}
   <meta name="robots" content="{{ robots or 'index, follow' }}">
   <link rel="canonical" href="{{ settings.site_url }}{{ page.url }}">
 
-  <meta property="og:title" content="{{ title or settings.site_name }}">
+  <meta property="og:title" content="{% if title and title != false %}{{ title }}{% else %}{{ settings.site_name }}{% endif %}">
   <meta property="og:description" content="{{ description or settings.tagline }}">
   <meta property="og:type" content="{{ og_type or 'website' }}">
   <meta property="og:url" content="{{ settings.site_url }}{{ page.url }}">
@@ -96,6 +96,27 @@
     }
     if (yearEl) {
       yearEl.textContent = new Date().getFullYear();
+    }
+  </script>
+
+  <script type="module">
+    import { handleAuthCallback } from "https://esm.sh/@netlify/identity";
+
+    const hasAuthToken =
+      window.location.hash.includes("invite_token=") ||
+      window.location.hash.includes("recovery_token=") ||
+      window.location.hash.includes("confirmation_token=") ||
+      window.location.hash.includes("access_token=");
+
+    if (hasAuthToken) {
+      try {
+        const result = await handleAuthCallback();
+        if (result) {
+          window.location.replace("/admin/");
+        }
+      } catch (error) {
+        console.error("Netlify Identity callback failed:", error);
+      }
     }
   </script>
 </body>
