@@ -1,28 +1,61 @@
-# WealthPulse — Netlify Configuration
+# WealthPulse — Netlify Build Configuration
+# ==========================================
+# Netlify reads this file to know how to build and serve the site.
 
 [build]
-  publish = "."
+  command         = "npm install && npm run build"
+  publish         = "_site"
+  functions       = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION    = "18"
+  ELEVENTY_ENV    = "production"
+
+# ── HEADERS ───────────────────────────────────────────────────────
+# Security and caching headers applied to all responses.
 
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Cache-Control = "public, max-age=3600"
-
-[[headers]]
-  for = "*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
+    X-Frame-Options         = "SAMEORIGIN"
+    X-Content-Type-Options  = "nosniff"
+    X-XSS-Protection        = "1; mode=block"
+    Referrer-Policy         = "strict-origin-when-cross-origin"
 
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    # Prevent the CMS admin from being indexed
+    X-Robots-Tag  = "noindex"
+    Cache-Control = "no-cache"
+
+# ── REDIRECTS ─────────────────────────────────────────────────────
+# /go/ links are static HTML redirect pages built by build_redirects.py
+# No server-side redirect config needed — they're real pages.
+
+# Legacy redirect: if anyone linked to /articles/slug.html (old path)
+# they now get the clean /articles/slug/ URL
 [[redirects]]
-  from = "/home"
-  to = "/"
+  from   = "/articles/:slug.html"
+  to     = "/articles/:slug/"
   status = 301
+
+# ── IDENTITY (Decap CMS authentication) ──────────────────────────
+# Netlify Identity handles login for the CMS editor.
+# No additional configuration needed here — enable it in the
+# Netlify dashboard under: Site Settings → Identity.
+
+# ── FORMS ─────────────────────────────────────────────────────────
+# Uncomment if you add a newsletter signup form later
+# [forms]
+#   enabled = true

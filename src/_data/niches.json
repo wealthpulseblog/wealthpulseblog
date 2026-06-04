@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "personal-finance",
+    "label": "Personal Finance"
+  },
+  {
+    "slug": "health-fitness",
+    "label": "Health & Fitness"
+  },
+  {
+    "slug": "productivity",
+    "label": "Productivity"
+  },
+  {
+    "slug": "career-growth",
+    "label": "Career Growth"
+  },
+  {
+    "slug": "home-living",
+    "label": "Home & Living"
+  }
+]

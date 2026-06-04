@@ -1,0 +1,18 @@
+{
+  "name": "wealthpulseblog",
+  "version": "1.0.0",
+  "description": "WealthPulse — personal finance and lifestyle blog",
+  "scripts": {
+    "build":  "eleventy",
+    "start":  "eleventy --serve",
+    "debug":  "DEBUG=Eleventy* eleventy"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "luxon":          "^3.4.4",
+    "markdown-it":    "^14.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

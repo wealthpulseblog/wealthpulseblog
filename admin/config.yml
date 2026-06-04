@@ -1,0 +1,148 @@
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: "cms: publish '{{fields.title}}'"
+    update: "cms: update '{{fields.title}}'"
+    delete: "cms: delete '{{fields.title}}'"
+    uploadMedia: "cms: upload media {{path}}"
+    deleteMedia: "cms: delete media {{path}}"
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "articles"
+    label: "Articles"
+    label_singular: "Article"
+    folder: "src/articles"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "articles/{{slug}}/"
+    summary: "{{title}} — {{niche}} — {{intent}}"
+    sortable_fields: ["date", "title", "niche", "intent"]
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        default: ""
+
+      - label: "SEO Meta Description"
+        name: "description"
+        widget: "text"
+
+      - label: "Niche / Category"
+        name: "niche"
+        widget: "select"
+        options:
+          - { label: "Personal Finance", value: "personal-finance" }
+          - { label: "Health & Fitness", value: "health-fitness" }
+          - { label: "Productivity", value: "productivity" }
+          - { label: "Career Growth", value: "career-growth" }
+          - { label: "Home & Living", value: "home-living" }
+
+      - label: "Article Intent"
+        name: "intent"
+        widget: "select"
+        options:
+          - { label: "Ads (informational / traffic)", value: "ads" }
+          - { label: "Affiliate (buyer intent)", value: "affiliate" }
+
+      - label: "Article Format"
+        name: "format"
+        widget: "select"
+        default: "guide"
+        options:
+          - { label: "Guide / How-to", value: "guide" }
+          - { label: "Best-of list", value: "best-of" }
+          - { label: "Comparison", value: "comparison" }
+          - { label: "Review", value: "review" }
+
+      - label: "SEO Keywords"
+        name: "keywords"
+        widget: "list"
+        field:
+          label: "Keyword"
+          name: "keyword"
+          widget: "string"
+
+      - label: "Featured / Show on Homepage"
+        name: "featured"
+        widget: "boolean"
+        default: false
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+
+      - label: "Affiliate Product Category"
+        name: "product_category"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Finance Apps", value: "finance-apps" }
+          - { label: "Investment Platforms", value: "investment-platforms" }
+          - { label: "Fitness Trackers", value: "fitness-trackers" }
+          - { label: "Supplements", value: "supplements" }
+          - { label: "Productivity Software", value: "productivity-software" }
+          - { label: "Online Courses", value: "online-courses" }
+          - { label: "Home Appliances", value: "home-appliances" }
+
+      - label: "Tags"
+        name: "tags"
+        widget: "hidden"
+        default:
+          - "articles"
+
+      - label: "Layout"
+        name: "layout"
+        widget: "hidden"
+        default: "base.njk"
+
+      - label: "Schema Type"
+        name: "schemaType"
+        widget: "hidden"
+        default: "Article"
+
+      - label: "Article Body"
+        name: "body"
+        widget: "markdown"
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "About"
+        name: "about"
+        file: "src/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Privacy Policy"
+        name: "privacy"
+        file: "src/privacy.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "src/_data/settings.json"
+        fields:
+          - { label: "Site Name", name: "site_name", widget: "string" }
+          - { label: "Site URL", name: "site_url", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "AdSense Client ID", name: "adsense_id", widget: "string", required: false }
+          - { label: "AdSense Auto Ads", name: "adsense_auto", widget: "boolean", default: false }

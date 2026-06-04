@@ -1,0 +1,35 @@
+WEALTHPULSE DECAP CMS TEST PACKAGE
+==================================
+
+Use this on a TEST branch or TEST Netlify site first.
+Do not replace production blindly.
+
+What is fixed in this package:
+- broken brace-expansion folders removed
+- missing files added: src/about.md, src/privacy.md, src/_data/affiliate.json
+- category pages added
+- Decap CMS config kept clean
+- safer migration instructions
+- product shortcode rendering fixed
+- wordcount filter added
+
+Recommended safe test flow:
+1. Create a new Git branch: cms-test
+2. Upload these files into that branch over your existing repo
+3. In Netlify, create a separate test site from branch cms-test OR use a deploy preview/test site
+4. Set build command: npm install && npm run build
+5. Set publish directory: _site
+6. Enable Netlify Identity + Git Gateway on the TEST site only first
+7. Visit /admin/ on the test site and confirm login works
+8. Confirm these pages work:
+   / 
+   /about/
+   /privacy/
+   /articles/best-budgeting-apps-beginners-2026/
+   /articles/category/personal-finance/
+   /sitemap.xml
+
+Important notes:
+- This package expects your existing assets/style.css and assets/product-cards.css to remain in the repo root.
+- Replace REPLACE_WITH_YOUR_AFFILIATE_LINK values in src/_data/affiliate.json with real links before publishing affiliate content.
+- This package uses clean article URLs with trailing slashes. Your old /articles/*.html URLs can later be redirected.
