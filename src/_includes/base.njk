@@ -1,103 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>{% if title and title != false %}{{ title }} — {{ settings.site_name }}{% else %}{{ settings.site_name }}{% endif %}</title>
-  <meta name="description" content="{{ description or settings.tagline }}">
-  {% if keywords %}<meta name="keywords" content="{{ keywords | join(', ') }}">{% endif %}
-  <meta name="robots" content="{{ robots or 'index, follow' }}">
-  <link rel="canonical" href="{{ settings.site_url }}{{ page.url }}">
-
-  <meta property="og:title" content="{% if title and title != false %}{{ title }}{% else %}{{ settings.site_name }}{% endif %}">
-  <meta property="og:description" content="{{ description or settings.tagline }}">
-  <meta property="og:type" content="{{ og_type or 'website' }}">
-  <meta property="og:url" content="{{ settings.site_url }}{{ page.url }}">
-  <meta property="og:site_name" content="{{ settings.site_name }}">
-
-  {% if schemaType == "Article" %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "{{ title }}",
-    "description": "{{ description }}",
-    "url": "{{ settings.site_url }}{{ page.url }}",
-    "datePublished": "{{ date | isoDate }}",
-    "publisher": {
-      "@type": "Organization",
-      "name": "{{ settings.site_name }}",
-      "url": "{{ settings.site_url }}"
-    }
-  }
-  </script>
-  {% endif %}
-
-  <link rel="stylesheet" href="/assets/style.css">
-  <link rel="stylesheet" href="/assets/product-cards.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% if title and title != false %}{{ title }} | {{ settings.site_name }}{% else %}{{ settings.site_name }}{% endif %}</title>
+  <meta name="description" content="{{ description or settings.tagline }}" />
+  <link rel="canonical" href="{{ settings.site_url }}{{ page.url }}" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href="/assets/product-cards.css" />
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <header class="masthead">
-    <div class="masthead-top">
-      <span class="date-line" id="dateDisplay"></span>
-      <div class="social-links">
-        <a href="/articles/category/personal-finance/">Finance</a>
-        <a href="/articles/category/health-fitness/">Health</a>
-        <a href="/articles/category/productivity/">Productivity</a>
-        <a href="/articles/category/career-growth/">Career</a>
-      </div>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">{{ settings.site_name }}</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/admin/">Admin</a>
+      </nav>
     </div>
-
-    <div class="masthead-logo">
-      <a href="/" class="logo-name">{{ settings.site_name }}</a>
-      <p class="logo-tagline">{{ settings.tagline }}</p>
-    </div>
-
-    <nav class="nav-bar" aria-label="Main navigation">
-      <a href="/">Home</a>
-      <a href="/articles/category/personal-finance/">Finance</a>
-      <a href="/articles/category/health-fitness/">Health</a>
-      <a href="/articles/category/productivity/">Productivity</a>
-      <a href="/articles/category/career-growth/">Career</a>
-      <a href="/about/">About</a>
-      <a href="/privacy/">Privacy</a>
-    </nav>
   </header>
 
   {{ content | safe }}
 
-  <footer>
-    <div class="footer-logo">{{ settings.site_name }}</div>
-    <div class="footer-links">
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/privacy/">Privacy Policy</a>
-      <a href="/sitemap.xml">Sitemap</a>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> {{ settings.site_name }}. All rights reserved.</p>
     </div>
-    <p class="footer-copy">© <span id="year"></span> {{ settings.site_name }}. All rights reserved.</p>
-    <p class="footer-disclaimer">
-      This site contains affiliate links. We may earn a commission at no extra cost to you.
-      Content is for informational purposes only and does not constitute financial or medical advice.
-    </p>
   </footer>
 
   <script>
-    const dateDisplay = document.getElementById('dateDisplay');
     const yearEl = document.getElementById('year');
-    if (dateDisplay) {
-      dateDisplay.textContent = new Date().toLocaleDateString('en-GB', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    }
-    if (yearEl) {
-      yearEl.textContent = new Date().getFullYear();
-    }
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", (user) => {
