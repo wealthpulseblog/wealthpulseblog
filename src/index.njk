@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 title: false
-description: "WealthPulse — practical, no-fluff advice on personal finance, health, productivity, and career growth."
+description: "Practical advice on money, health, productivity and career growth."
 permalink: /
 ---
 
@@ -10,53 +10,28 @@ permalink: /
 
 <main class="container">
   {% if heroArticle %}
-  <section class="hero-section">
-    <span class="section-label">Editor's Pick</span>
-    <div class="hero-article">
-      <div class="hero-img">
-        <div class="hero-img-inner">
-          {% if heroArticle.data.niche == "personal-finance" %}💰
-          {% elif heroArticle.data.niche == "health-fitness" %}💪
-          {% elif heroArticle.data.niche == "productivity" %}⚡
-          {% elif heroArticle.data.niche == "career-growth" %}📈
-          {% else %}🏡{% endif %}
-        </div>
-      </div>
-      <div>
-        <div class="hero-niche">
-          {{ heroArticle.data.niche | replace("-", " ") | title }}
-        </div>
-        <h1 class="hero-title">
-          <a href="{{ heroArticle.url }}">{{ heroArticle.data.title }}</a>
-        </h1>
-        <p class="hero-excerpt">{{ heroArticle.data.description }}</p>
-        <a href="{{ heroArticle.url }}" class="read-more">Read Article</a>
-      </div>
-    </div>
+  <section class="home-featured">
+    <p class="article-category">{{ heroArticle.data.niche | replace("-", " ") | title }}</p>
+    <h1><a href="{{ heroArticle.url }}">{{ heroArticle.data.title }}</a></h1>
+    <p class="article-meta">Published: {{ heroArticle.date | readableDate }}</p>
+    <p>{{ heroArticle.data.description }}</p>
+    <p><a href="{{ heroArticle.url }}">Read Article</a></p>
   </section>
   {% endif %}
 
-  {% if articles.length %}
-  <section class="articles-section">
-    <span class="section-label">Latest</span>
-    <div class="articles-grid">
-      {% for article in articles %}
-        {% if not heroArticle or article.url != heroArticle.url %}
-        <div class="article-card">
-          <div class="card-niche">
-            {{ article.data.niche | replace("-", " ") | title }}
-          </div>
-          <h2 class="card-title">
-            <a href="{{ article.url }}">{{ article.data.title }}</a>
-          </h2>
-          <p class="card-excerpt">{{ article.data.description }}</p>
-          <div class="card-meta">
-            <time datetime="{{ article.date | isoDate }}">{{ article.date | readableDate }}</time>
-          </div>
-        </div>
-        {% endif %}
-      {% endfor %}
-    </div>
+  {% if articles.length > 1 %}
+  <section class="home-list">
+    <h2>Latest Articles</h2>
+    {% for article in articles %}
+      {% if not heroArticle or article.url != heroArticle.url %}
+      <article class="post-card">
+        <p class="article-category">{{ article.data.niche | replace("-", " ") | title }}</p>
+        <h3><a href="{{ article.url }}">{{ article.data.title }}</a></h3>
+        <p class="article-meta">Published: {{ article.date | readableDate }}</p>
+        <p>{{ article.data.description }}</p>
+      </article>
+      {% endif %}
+    {% endfor %}
   </section>
   {% endif %}
 </main>
