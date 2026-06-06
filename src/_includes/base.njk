@@ -20,21 +20,22 @@
         <a href="/privacy/">Privacy</a>
         <a href="/admin/">Admin</a>
       </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
-
   {{ content | safe }}
-
   <footer class="site-footer">
     <div class="container">
       <p>&copy; <span id="year"></span> {{ settings.site_name }}. All rights reserved.</p>
     </div>
   </footer>
-
   <script>
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
-
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", (user) => {
         if (!user) {
@@ -42,6 +43,16 @@
             document.location.href = "/admin/";
           });
         }
+      });
+    }
+
+    // Hamburger menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    if (menuToggle && nav) {
+      menuToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        nav.classList.toggle('active');
       });
     }
   </script>
