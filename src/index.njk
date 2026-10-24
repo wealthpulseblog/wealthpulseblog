@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 title: false
-description: "Honest product reviews, buying guides and comparisons."
+description: "Product reviews, comparisons and buying guides."
 permalink: /
 ---
 
@@ -9,85 +9,81 @@ permalink: /
 
 <main>
 
-<section class="hero">
-  <div class="hero-inner">
+<section class="homepage-intro">
 
-    <span class="hero-badge">
-      Product Reviews & Buying Guides
-    </span>
+  <div class="container">
 
-    <h1>
-      Find Products Worth Your Money
-    </h1>
+    <h2 class="section-title">
+      Trusted Buying Guides
+    </h2>
 
-    <p>
-      We research, compare and review products from Amazon,
-      Temu and other online marketplaces so you can buy with
-      confidence.
+    <p class="section-copy">
+      We help shoppers discover products worth buying.
+      Our reviews, comparisons and buying guides focus
+      on helping you make smarter purchasing decisions.
     </p>
 
-    <div class="hero-actions">
-      #latest
-        Browse Reviews
-      </a>
-
-      <a href="/about/" class="btn btn-secondary">
-        Learn More
-      </a>
-    </div>
-
   </div>
+
 </section>
 
 <section class="categories">
 
-  <h2>Browse Categories</h2>
+  <div class="container">
 
-  <div class="category-grid">
+    <h2 class="section-title">
+      Popular Categories
+    </h2>
 
-    <div class="category-card">
-      <h3>💻 Tech & Gadgets</h3>
-      <p>Laptops, accessories, headphones and electronics.</p>
-    </div>
+    <div class="category-grid">
 
-    <div class="category-card">
-      <h3>🏠 Home & Kitchen</h3>
-      <p>Appliances, storage solutions and cooking products.</p>
-    </div>
+      <div class="category-card">
+        <h3>💻 Tech & Gadgets</h3>
+        <p>Headphones, accessories, electronics and smart devices.</p>
+      </div>
 
-    <div class="category-card">
-      <h3>🏃 Health & Fitness</h3>
-      <p>Fitness trackers, equipment and wellness products.</p>
-    </div>
+      <div class="category-card">
+        <h3>🏠 Home & Kitchen</h3>
+        <p>Appliances, storage solutions and useful household products.</p>
+      </div>
 
-    <div class="category-card">
-      <h3>🔥 Best Deals</h3>
-      <p>Curated discoveries from Amazon and Temu.</p>
+      <div class="category-card">
+        <h3>🏃 Fitness</h3>
+        <p>Fitness trackers, wellness products and exercise gear.</p>
+      </div>
+
+      <div class="category-card">
+        <h3>🔥 Deals & Discoveries</h3>
+        <p>Interesting finds from Amazon, Temu and other retailers.</p>
+      </div>
+
     </div>
 
   </div>
 
 </section>
 
-<section class="featured-section">
+<section class="trust-section">
 
-  <h2>What You'll Find Here</h2>
+  <div class="container">
 
-  <div class="feature-grid">
+    <div class="trust-grid">
 
-    <div class="feature-box">
-      <h3>Best Product Lists</h3>
-      <p>Ranked buying guides based on research and comparison.</p>
-    </div>
+      <div class="trust-card">
+        <h3>Reviews</h3>
+        <p>In-depth analysis of products worth considering.</p>
+      </div>
 
-    <div class="feature-box">
-      <h3>Detailed Reviews</h3>
-      <p>Pros, cons, ratings and real recommendations.</p>
-    </div>
+      <div class="trust-card">
+        <h3>Comparisons</h3>
+        <p>Side-by-side evaluations to help you choose faster.</p>
+      </div>
 
-    <div class="feature-box">
-      <h3>Comparison Guides</h3>
-      <p>Side-by-side comparisons to help you choose faster.</p>
+      <div class="trust-card">
+        <h3>Buying Guides</h3>
+        <p>Curated recommendations for every budget.</p>
+      </div>
+
     </div>
 
   </div>
@@ -96,37 +92,43 @@ permalink: /
 
 <section id="latest" class="latest-reviews">
 
-<h2>Latest Reviews & Guides</h2>
+  <div class="container">
 
-<div class="review-grid">
+    <h2 class="section-title">
+      Latest Reviews & Guides
+    </h2>
 
-{% for article in latest %}
+    <div class="review-grid">
 
-<article class="review-card">
+      {% for article in latest %}
 
-  <span class="card-category">
-    {{ article.data.niche | replace("-", " ") | title }}
-  </span>
+      <article class="review-card">
 
-  <h3>
-    {{ article.url }}
-      {{ article.data.title }}
-    </a>
-  </h3>
+        <span class="card-category">
+          {{ article.data.niche | replace("-", " ") | title }}
+        </span>
 
-  <p>
-    {{ article.data.description }}
-  </p>
+        <h3>
+          <a href="{{ article.url }}">
+            {{ article.data.title }}
+          </a>
+        </h3>
 
-  {{ article.url }}
-    Read Review →
-  </a>
+        <p>
+          {{ article.data.description }}
+        </p>
 
-</article>
+        <a class="read-more" href="{{ article.url }}">
+          Read Review →
+        </a>
 
-{% endfor %}
+      </article>
 
-</div>
+      {% endfor %}
+
+    </div>
+
+  </div>
 
 </section>
 
