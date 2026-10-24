@@ -1,37 +1,109 @@
 ---
 layout: base.njk
 title: false
-description: "Practical advice on money, health, productivity and career growth."
 permalink: /
+description: Honest product reviews and buying guides.
 ---
 
-{% set articles = collections.articles or [] %}
-{% set heroArticle = collections.featured[0] or articles[0] %}
+<main>
 
-<main class="container">
-  {% if heroArticle %}
-  <section class="home-featured">
-    <p class="article-category">{{ heroArticle.data.niche | replace("-", " ") | title }}</p>
-    <h1><a href="{{ heroArticle.url }}">{{ heroArticle.data.title }}</a></h1>
-    <p class="article-meta">Published: {{ heroArticle.date | readableDate }}</p>
-    <p>{{ heroArticle.data.description }}</p>
-    <p><a href="{{ heroArticle.url }}">Read Article</a></p>
-  </section>
-  {% endif %}
+<section class="hero">
 
-  {% if articles.length > 1 %}
-  <section class="home-list">
-    <h2>Latest Articles</h2>
-    {% for article in articles %}
-      {% if not heroArticle or article.url != heroArticle.url %}
-      <article class="post-card">
-        <p class="article-category">{{ article.data.niche | replace("-", " ") | title }}</p>
-        <h3><a href="{{ article.url }}">{{ article.data.title }}</a></h3>
-        <p class="article-meta">Published: {{ article.date | readableDate }}</p>
-        <p>{{ article.data.description }}</p>
-      </article>
-      {% endif %}
-    {% endfor %}
-  </section>
-  {% endif %}
+<div class="hero-inner">
+
+<span class="hero-badge">
+Trusted Product Reviews
+</span>
+
+<h1>
+Find Products Worth Your Money
+</h1>
+
+<p>
+We compare products, test features, and recommend
+the best options from Amazon, Temu, and other online stores.
+</p>
+
+<div class="hero-actions">
+<a href="/articles/" class="btn-primary">
+Browse Reviews
+</a>
+
+<a href="/about/" class="btn-secondary">
+Learn More
+</a>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="featured-categories">
+
+<h2>Popular Categories</h2>
+
+<div class="category-grid">
+
+<a class="category-card">
+<h3>💻 Tech & Gadgets</h3>
+<p>Headphones, laptops and accessories.</p>
+</a>
+
+<a class="category-card">
+<h3>🏠 Home & Kitchen</h3>
+<p>Appliances and smart home products.</p>
+</a>
+
+<a class="category-card">
+<h3>🏃 Fitness</h3>
+<p>Fitness gear and health products.</p>
+</a>
+
+<a class="category-card">
+<h3>🔥 Best Deals</h3>
+<p>Current product recommendations.</p>
+</a>
+
+</div>
+
+</section>
+
+
+<section class="latest-reviews">
+
+<h2>Latest Reviews</h2>
+
+<div class="article-grid">
+
+{% for article in collections.articles %}
+
+<div class="review-card">
+
+<span class="badge">
+{{ article.data.niche }}
+</span>
+
+<h3>
+<a href="{{ article.url }}">
+{{ article.data.title }}
+</a>
+</h3>
+
+<p>
+{{ article.data.description }}
+</p>
+
+<a href="{{ article.url }}" class="read-link">
+Read Review →
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
 </main>
