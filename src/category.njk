@@ -1,28 +1,26 @@
----
-layout: base.njk
-pagination:
-  data: niches
-  size: 1
-  alias: nicheItem
-permalink: "/articles/category/{{ nicheItem.slug }}/"
-eleventyComputed:
-  title: "{{ nicheItem.label }}"
-  description: "Browse {{ nicheItem.label }} articles on WealthPulse."
----
-
-<section class="articles-section">
-  <span class="section-label">Category</span>
-  <h1 class="hero-title">{{ nicheItem.label }}</h1>
-  <div class="articles-grid">
-    {% for article in collections.articles %}
-      {% if article.data.niche == nicheItem.slug %}
-      <div class="article-card">
-        <div class="card-niche">{{ nicheItem.label }}</div>
-        <h2 class="card-title"><a href="{{ article.url }}">{{ article.data.title }}</a></h2>
-        <p class="card-excerpt">{{ article.data.description }}</p>
-        <div class="card-meta"><time datetime="{{ article.date | isoDate }}">{{ article.date | readableDate }}</time></div>
-      </div>
-      {% endif %}
-    {% endfor %}
-  </div>
-</section>
+[
+  {
+    "slug": "tech",
+    "label": "Tech & Gadgets"
+  },
+  {
+    "slug": "home",
+    "label": "Home & Kitchen"
+  },
+  {
+    "slug": "fitness",
+    "label": "Fitness"
+  },
+  {
+    "slug": "outdoor",
+    "label": "Outdoor"
+  },
+  {
+    "slug": "amazon-finds",
+    "label": "Amazon Finds"
+  },
+  {
+    "slug": "temu-finds",
+    "label": "Temu Finds"
+  }
+]
