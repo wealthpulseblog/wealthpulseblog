@@ -1,60 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% if title and title != false %}{{ title }} | {{ settings.site_name }}{% else %}{{ settings.site_name }}{% endif %}</title>
-  <meta name="description" content="{{ description or settings.tagline }}" />
-  <link rel="canonical" href="{{ settings.site_url }}{{ page.url }}" />
-  <link rel="stylesheet" href="/assets/style.css" />
-  <link rel="stylesheet" href="/assets/product-cards.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    {% if title and title != false %}
+      {{ title }} | {{ settings.site_name }}
+    {% else %}
+      {{ settings.site_name }}
+    {% endif %}
+  </title>
+
+  <meta name="description" content="{{ description or settings.tagline }}">
+
+  <link rel="canonical" href="{{ settings.site_url }}{{ page.url }}">
+
+  <meta name="theme-color" content="#0f172a">
+
+  <meta property="og:title" content="{{ title or settings.site_name }}">
+  <meta property="og:description" content="{{ description or settings.tagline }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ settings.site_url }}{{ page.url }}">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/product-cards.css">
+
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
+
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="logo">{{ settings.site_name }}</a>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/admin/">Admin</a>
-      </nav>
-      <button class="menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
+
+<header class="header">
+
+  <div class="nav-container">
+
+    <a href="/" class="logo">
+      WealthPulse
+    </a>
+
+    <nav class="main-nav" id="main-nav">
+
+      <a href="/">Home</a>
+
+      <a href="/articles/">
+        Reviews
+      </a>
+
+      <a href="/articles/category/tech/">
+        Tech
+      </a>
+
+      <a href="/articles/category/home/">
+        Home
+      </a>
+
+      <a href="/articles/category/fitness/">
+        Fitness
+      </a>
+
+      <a href="/about/">
+        About
+      </a>
+
+    </nav>
+
+    <button
+      class="mobile-toggle"
+      id="mobile-toggle"
+      aria-label="Open Menu">
+
+      ☰
+
+    </button>
+
+  </div>
+
+</header>
+
+<section class="announcement-bar">
+
+  <div class="announcement-inner">
+
+    Honest Reviews • Buying Guides • Product Comparisons
+
+  </div>
+
+</section>
+
+{% if page.url == "/" %}
+
+<section class="hero">
+
+  <div class="hero-wrapper">
+
+    <span class="hero-tag">
+
+      TRUSTED PRODUCT REVIEWS
+
+    </span>
+
+    <h1>
+
+      Find Products Worth Your Money
+
+    </h1>
+
+    <p>
+
+      We research, compare, and review products from
+      Amazon, Temu, and other online retailers to help
+      you buy smarter.
+
+    </p>
+
+    <div class="hero-buttons">
+
+      <a href="/articles/" class="btn btn-primary">
+        Browse Reviews
+      </a>
+
+      <a href="/about/" class="btn btn-secondary">
+        Learn More
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% endif %}
+
+{{ content | safe }}
+
+<section class="newsletter">
+
+  <div class="newsletter-inner">
+
+    <h2>
+
+      Never Miss A Review
+
+    </h2>
+
+    <p>
+
+      Get new buying guides and product recommendations
+      delivered straight to your inbox.
+
+    </p>
+
+    <form>
+
+      <input
+        type="email"
+        placeholder="Your Email Address"
+        required>
+
+      <button type="submit">
+
+        Subscribe
+
       </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+<footer class="site-footer">
+
+  <div class="footer-container">
+
+    <h3 class="footer-logo">
+
+      WealthPulse
+
+    </h3>
+
+    <p class="footer-tagline">
+
+      Smart Reviews. Better Purchases.
+
+    </p>
+
+    <div class="footer-links">
+
+      <a href="/">Home</a>
+
+      <a href="/about/">About</a>
+
+      <a href="/privacy/">Privacy</a>
+
+      <a href="/articles/">
+        Reviews
+      </a>
+
     </div>
-  </header>
-  {{ content | safe }}
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="year"></span> {{ settings.site_name }}. All rights reserved.</p>
-    </div>
-  </footer>
-  <script>
-    const yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
+
+    <p class="affiliate-disclaimer">
+
+      Some links on this website may be affiliate links.
+      If you purchase through them we may earn a commission
+      at no additional cost to you.
+
+    </p>
+
+    <p class="copyright">
+
+      © <span id="year"></span>
+      WealthPulse. All Rights Reserved.
+
+    </p>
+
+  </div>
+
+</footer>
+
+<script>
+
+document.getElementById('year').textContent =
+new Date().getFullYear();
+
+const toggle =
+document.getElementById('mobile-toggle');
+
+const nav =
+document.getElementById('main-nav');
+
+if (toggle) {
+
+  toggle.addEventListener('click', () => {
+
+    nav.classList.toggle('mobile-open');
+
+  });
+
+}
+
+if (window.netlifyIdentity) {
+
+  window.netlifyIdentity.on("init", (user) => {
+
+    if (!user) {
+
+      window.netlifyIdentity.on("login", () => {
+
+        document.location.href = "/admin/";
+
       });
+
     }
 
-    // Hamburger menu toggle
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('nav');
-    if (menuToggle && nav) {
-      menuToggle.addEventListener('click', function() {
-        this.classList.toggle('active');
-        nav.classList.toggle('active');
-      });
-    }
-  </script>
+  });
+
+}
+
+</script>
+
 </body>
+
 </html>
